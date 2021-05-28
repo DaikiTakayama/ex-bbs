@@ -1,5 +1,6 @@
 package jp.co.exbbs.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -51,13 +52,17 @@ public class ArticleController {
 	 * @return　掲示板を出力
 	 */
 	@RequestMapping("/index")
-	private String index(Model model) {
+	public String index(Model model) {
 		List<Article> articleList = articleRepository.findAll();
 		model.addAttribute("articleList",articleList);
 		
-		List<Comment> commentList=commentRepository.findByArticleId(articleList.get(0).getId());
-		model.addAttribute("commentList",commentList);
-
+		List<Comment> commentList= new ArrayList<>();
+		for(Article article:articleList) {
+			commentList= commentRepository.findByArticleId(article.getId());
+			article.setCommentList(commentList);
+			System.out.println(commentList);
+			model.addAttribute("commentList",commentList);
+		}
 		return "bbs-input";
 	}
 	
@@ -69,10 +74,27 @@ public class ArticleController {
 	 * @return 登録処理実施後、再度検索画面を表示
 	 */
 	@RequestMapping("/insertArticle")
-	private String insertArticle(ArticleForm articleForm) {
+	public String insertArticle(ArticleForm articleForm) {
 		Article article =new Article();
 		BeanUtils.copyProperties(articleForm, article);
 		articleRepository.insert(article);
+		return "redirect:/bbs/index";
+	}
+	
+	
+	/**
+	 * コメントを追加登録する処理を実行する.
+	 * 
+	 * @param commentForm コメントのリクエストパラメータを格納するオブジェクト
+	 * @return 掲示板画面を表示
+	 */
+	@RequestMapping("insertComment")
+	public String insertComment(CommentForm commentForm) {
+		Comment comment =new Comment();
+		BeanUtils.copyProperties(commentForm,comment);
+//		System.out.println(comment.getArticleId());
+		
+		commentRepository.insert(comment);
 		return "redirect:/bbs/index";
 	}
 	

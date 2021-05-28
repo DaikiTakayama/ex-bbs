@@ -25,16 +25,18 @@
 			<p>投稿内容：<strong th:text="${article.content}"></strong></p>
 			<p><button>記事削除</button></p> <!-- 後で削除するパスを追加 -->
 		
-		<div class ="posted_comment" th:each="comment :${commentList}">
-			<p>コメント者名：<span th:text="${comment.name}"></span></p>
+		<div class ="posted_comment" th:each="comment:${article.commentList}">
+			
+			<p>コメント者名：<span th:text="${comment.name}" ></span></p>
 			<p>コメント内容：</p>
 				<div><strong th:text="${comment.content}"></strong></div>
 		</div>
 		
 		<div class="input_comment">
-			<form th:object="${commentForm}">
+			<form th:object="${commentForm}" method="post" th:action="@{/bbs/insertComment}">
+				<input type="hidden" name="articleId" th:value="${article.id}">
 				<p><label for="com_name">名前：</label></p>
-				<p><input type="text" id="com_name" name="com_name" th:field="*{content}"></p>
+				<p><input type="text" id="com_name" name="com_name" th:field="*{name}"></p>
 				
 				<label for="com_content">コメント：</label>
 				<p><textarea rows="15" cols="50" id="com_content" name="com_contetn" th:field="*{content}"></textarea></p>

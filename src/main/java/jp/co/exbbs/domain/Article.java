@@ -17,6 +17,8 @@ public class Article {
 	private String content;
 	/** 投稿に対して送られたコメントのリスト*/
 	private List<Comment> commentList;
+	
+	
 	public Integer getId() {
 		return id;
 	}

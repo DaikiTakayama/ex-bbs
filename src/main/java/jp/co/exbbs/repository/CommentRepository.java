@@ -10,7 +10,9 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import jp.co.exbbs.domain.Article;
 import jp.co.exbbs.domain.Comment;
+import jp.co.exbbs.form.CommentForm;
 
 
 /**
@@ -42,4 +44,16 @@ public class CommentRepository {
 		List<Comment> commentList = template.query(sql,param, COMMENT_ROW_MAPPER);
 		return commentList;
 	}
+	
+	/**
+	 * comments テーブルに列を追加する.
+	 * 
+	 * @param comment コメント情報を格納したオブジェクト
+	 */
+	public void insert(Comment comment) {
+		String sql="insert into comments(name,content,article_id) values(:name,:content,:articleId)";
+		SqlParameterSource param =new MapSqlParameterSource().addValue("name",comment.getName()).addValue("content",comment.getContent()).addValue("articleId", comment.getArticleId());
+		template.update(sql,param);
+	}
+	
 }
