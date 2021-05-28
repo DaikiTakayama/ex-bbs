@@ -15,6 +15,7 @@ import jp.co.exbbs.domain.Article;
 
 /**
  * articles テーブルを操作するリポジトリ.
+ * 
  * @author daiki.takayama
  *
  */
@@ -37,6 +38,12 @@ public class ArticleRepository {
 		return template.query(sql, ARTICLE_ROW_MAPPET);
 	} 
 	
+	
+	/**
+	 * articles テーブルに列を追加する.
+	 * 
+	 * @param article 書き込み情報を格納したオブジェクト
+	 */
 	public void insert(Article article) {
 		String sql="insert into articles(name,content) values(:name,:content)";
 		SqlParameterSource param =new MapSqlParameterSource().addValue("name", article.getName()).addValue("content", article.getContent());

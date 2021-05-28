@@ -17,6 +17,13 @@ import jp.co.exbbs.form.CommentForm;
 import jp.co.exbbs.repository.ArticleRepository;
 import jp.co.exbbs.repository.CommentRepository;
 
+
+/**
+ * 掲示板画面を表示するコントローラ.
+ * 
+ * @author daiki.takayama
+ *
+ */
 @Controller
 @RequestMapping("/bbs")
 public class ArticleController {
@@ -36,6 +43,13 @@ public class ArticleController {
 	@Autowired
 	private CommentRepository commentRepository;
 	
+	
+	/**
+	 * 掲示板画面を出力する.
+	 * 
+	 * @param model 書き込み情報とコメント情報を格納するリクエストパラメータ
+	 * @return　掲示板を出力
+	 */
 	@RequestMapping("/index")
 	private String index(Model model) {
 		List<Article> articleList = articleRepository.findAll();
@@ -47,6 +61,13 @@ public class ArticleController {
 		return "bbs-input";
 	}
 	
+	
+	/**
+	 * 書き込みフォームに書き込みがあった場合、登録処理を実施する.
+	 * 
+	 * @param articleForm 書き込みフォームのリクエストパラメータを格納したオブジェクト
+	 * @return 登録処理実施後、再度検索画面を表示
+	 */
 	@RequestMapping("/insertArticle")
 	private String insertArticle(ArticleForm articleForm) {
 		Article article =new Article();
@@ -54,4 +75,6 @@ public class ArticleController {
 		articleRepository.insert(article);
 		return "redirect:/bbs/index";
 	}
+	
+	
 }
