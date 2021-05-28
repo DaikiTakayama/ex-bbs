@@ -6,12 +6,12 @@
 </head>
 <body>
 	<div class="articleForm">
-		<form action="" method="post" th:object="${articleForm}">
+		<form action="" th:action="@{/bbs/insertArticle}" method="post" th:object="${articleForm}">
 			<label for="art_name">投稿者名：</label><input type="text" id="art_name" th:field="*{name}" name="art_name">
 			
 			
 			<p><label for="art_content">投稿内容：</label></p>
-			<p><textarea rows="15" cols="30" id="art_content" th:field="*{content}" name="art_content"></textarea></p>
+			<p><textarea rows="15" cols="50" id="art_content" th:field="*{content}" name="art_content"></textarea></p>
 			
 		    <p><button>投稿</button></p>
 		</form>
@@ -37,7 +37,7 @@
 				<p><input type="text" id="com_name" name="com_name" th:field="*{content}"></p>
 				
 				<label for="com_content">コメント：</label>
-				<p><textarea rows="15" cols="30" id="com_content" name="com_contetn" th:field="*{content}"></textarea></p>
+				<p><textarea rows="15" cols="50" id="com_content" name="com_contetn" th:field="*{content}"></textarea></p>
 				
 				<button>コメント投稿</button>
 			</form>

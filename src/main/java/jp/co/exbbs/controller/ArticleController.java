@@ -2,11 +2,13 @@ package jp.co.exbbs.controller;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 
 import jp.co.exbbs.domain.Article;
 import jp.co.exbbs.domain.Comment;
@@ -34,7 +36,7 @@ public class ArticleController {
 	@Autowired
 	private CommentRepository commentRepository;
 	
-	@RequestMapping("")
+	@RequestMapping("/index")
 	private String index(Model model) {
 		List<Article> articleList = articleRepository.findAll();
 		model.addAttribute("articleList",articleList);
@@ -47,6 +49,9 @@ public class ArticleController {
 	
 	@RequestMapping("/insertArticle")
 	private String insertArticle(ArticleForm articleForm) {
-		
+		Article article =new Article();
+		BeanUtils.copyProperties(articleForm, article);
+		articleRepository.insert(article);
+		return "redirect:/bbs/index";
 	}
 }

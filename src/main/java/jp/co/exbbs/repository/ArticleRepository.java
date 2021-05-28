@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import jp.co.exbbs.domain.Article;
@@ -34,6 +36,12 @@ public class ArticleRepository {
 		
 		return template.query(sql, ARTICLE_ROW_MAPPET);
 	} 
+	
+	public void insert(Article article) {
+		String sql="insert into articles(name,content) values(:name,:content)";
+		SqlParameterSource param =new MapSqlParameterSource().addValue("name", article.getName()).addValue("content", article.getContent());
+		template.update(sql,param);
+	}
 	
 
 }
