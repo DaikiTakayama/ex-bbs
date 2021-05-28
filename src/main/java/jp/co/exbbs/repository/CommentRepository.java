@@ -20,7 +20,7 @@ import jp.co.exbbs.domain.Comment;
  *
  */
 @Repository
-public class CoomentRepository {
+public class CommentRepository {
 	
 	
 	private static final RowMapper<Comment> COMMENT_ROW_MAPPER = new BeanPropertyRowMapper<>(Comment.class);
