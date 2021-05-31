@@ -119,13 +119,17 @@ public class ArticleRepository {
 	
 	
 	/**
+	 * 演習8
+	 * 書き込みとコメントを1つのSQLで同時に削除する.
 	 * 
+	 * @param articleId 削除する書き込みのID
 	 */
-	public void deleteArticleAndCommentByID(Integer id) {
+	public void deleteArticleAndCommentByID(Integer articleId) {
 		String sql ="delete from comments"
-				+ " where article_id in(select id from articles where id=6)";
+				+ " where article_id in(select id from articles where id=:articleId)";
 		
-		
+		SqlParameterSource param = new MapSqlParameterSource().addValue("articleId", articleId);
+		template.update(sql, param);
 	}
 	
 
