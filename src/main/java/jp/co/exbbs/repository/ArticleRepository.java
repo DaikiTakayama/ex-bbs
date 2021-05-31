@@ -1,9 +1,11 @@
 package jp.co.exbbs.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -11,6 +13,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import jp.co.exbbs.domain.Article;
+import jp.co.exbbs.domain.Comment;
 
 
 /**
@@ -22,6 +25,50 @@ import jp.co.exbbs.domain.Article;
 @Repository
 public class ArticleRepository {
 	private static final RowMapper<Article> ARTICLE_ROW_MAPPET = new BeanPropertyRowMapper<Article>(Article.class);
+	
+	
+	
+	private static final ResultSetExtractor<List<Article>> ARTICLE_RESULT_SET_EXTRACTOR = (rs) -> {
+
+		List<Article> articeleList = new ArrayList<>();
+		List<Comment> commentList = new ArrayList();
+
+		Integer nowArticleId=0;
+		while(rs.next()) {
+			Integer newArticleId= rs.getInt("a_id");
+			
+			if(newArticleId != nowArticleId) {
+				Article article = new Article();
+				article.setId(rs.getInt("a_id"));
+				article.setName(rs.getString("a_name"));
+				article.setContent(rs.getString("a_content"));
+				
+				commentList = new ArrayList<>();
+				article.setCommentList(commentList);
+				
+				
+				articeleList.add(article);
+			}
+
+			
+			if(rs.getInt("c_id") != 0) {
+				Comment comment = new Comment();
+				comment.setId(rs.getInt("c_id"));
+				comment.setName(rs.getString("c_name"));
+				comment.setContent(rs.getString("c_content"));
+				comment.setArticleId(rs.getInt("c_article_id"));
+				
+				commentList.add(comment);
+
+			}
+			
+			nowArticleId = newArticleId;
+		}
+		
+		
+		return articeleList;
+	};
+	
 	
 	@Autowired
 	private NamedParameterJdbcTemplate template;
@@ -37,6 +84,16 @@ public class ArticleRepository {
 		
 		return template.query(sql, ARTICLE_ROW_MAPPET);
 	} 
+	
+	
+	public List<Article> joinFindAll(){
+		String sql="select a.id as a_id,a.name as a_name,a.content as a_content,c.id as c_id,c.name as c_name,c.content as c_content,c.article_id as c_article_id from articles as a \r\n"
+				+ "inner join \"comments\" as c \r\n"
+				+ "on a.id=c.article_id\r\n order by a.id desc,c.id";
+		
+		return template.query(sql,ARTICLE_RESULT_SET_EXTRACTOR);
+	}
+	
 	
 	
 	/**
