@@ -1,5 +1,6 @@
 package jp.co.exbbs.form;
 
+import javax.validation.constraints.NotBlank;
 
 /**
  * 掲示板への投稿フォームのパラメータを格納するフォーム.
@@ -9,16 +10,18 @@ package jp.co.exbbs.form;
  */
 public class ArticleForm {
 	/** 書き込みID*/
-	private Integer id;
+	private Integer articleId;
 	/** 投稿者名*/
+	@NotBlank(message ="*投稿者名が入力されていません")
 	private String name;
 	/** コンテント*/
+	@NotBlank(message ="*コンテントが入力されていません")
 	private String content;
 	public Integer getId() {
-		return id;
+		return articleId;
 	}
 	public void setId(Integer id) {
-		this.id = id;
+		this.articleId = id;
 	}
 	public String getName() {
 		return name;
@@ -34,7 +37,7 @@ public class ArticleForm {
 	}
 	@Override
 	public String toString() {
-		return "ArticleForm [id=" + id + ", name=" + name + ", content=" + content + "]";
+		return "ArticleForm [id=" + articleId + ", name=" + name + ", content=" + content + "]";
 	}
 	
 	

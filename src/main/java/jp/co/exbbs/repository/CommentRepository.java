@@ -55,17 +55,17 @@ public class CommentRepository {
 		template.update(sql,param);
 	}
 	
-	
-	/**
-	 * 書き込みが削除された場合、該当するコメントをすべて消去する.
-	 * 
-	 * 
-	 * @param ArticleId 削除した書き込みID
-	 */
-	public void deleteByArticleId(Integer ArticleId) {
-		String sql="delete from comments  where article_id=:articleId";
-		SqlParameterSource param=new MapSqlParameterSource().addValue("articleId", ArticleId);
-		template.update(sql,param);
-	}
+//	
+//	/**
+//	 * 書き込みが削除された場合、該当するコメントをすべて消去する.
+//	 * 
+//	 * 
+//	 * @param ArticleId 削除した書き込みID
+//	 */
+//	public void deleteByArticleId(Integer articleId) {
+//		String sql="delete from comments  where article_id=:articleId";
+//		SqlParameterSource param=new MapSqlParameterSource().addValue("articleId", articleId);
+//		template.update(sql,param);
+//	}
 	
 }

@@ -7,10 +7,14 @@
 <body>
 	<div class="articleForm">
 		<form action="" th:action="@{/bbs/insertArticle}" method="post" th:object="${articleForm}">
+			<div th:errors ="*{name}" style="color:red"></div>
 			<label for="art_name">投稿者名：</label><input type="text" id="art_name" th:field="*{name}" name="art_name">
-			
-			
-			<p><label for="art_content">投稿内容：</label></p>
+
+
+						
+			<div th:errors ="*{content}" style="color:red"></div>
+			<p><label for="art_content">
+			投稿内容：</label></p>
 			<p><textarea rows="15" cols="50" id="art_content" th:field="*{content}" name="art_content"></textarea></p>
 			
 		    <p><button>投稿</button></p>
@@ -39,12 +43,19 @@
 		
 		<div class="input_comment">
 			<form th:object="${commentForm}" method="post" th:action="@{/bbs/insertComment}">
-						<hr style="border-top: 1px dashed #bbb;">
-				<input type="hidden" name="articleId" th:value="${article.id}">
-				<p><label for="com_name">名前：</label></p>
-				<p><input type="text" id="com_name" name="com_name" th:field="*{name}"></p>
+			
+				<hr style="border-top: 1px dashed #bbb;">
 				
-				<label for="com_content">コメント：</label>
+				<input type="hidden" name="articleId" th:value="${article.id}">
+				
+				<div th:errors ="*{name}" style="color:red"></div>
+				<label for="com_name">
+				名前：</label>
+				<input type="text" id="com_name" name="com_name" th:field="*{name}">
+								
+
+				<p th:errors ="*{content}" style="color:red"></p>
+				<p><label for="com_content">コメント：</label></p>
 				<p><textarea rows="15" cols="50" id="com_content" name="com_contetn" th:field="*{content}"></textarea></p>
 				
 				<button>コメント投稿</button>

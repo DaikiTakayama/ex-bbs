@@ -86,9 +86,10 @@ public class ArticleRepository {
 	
 	
 	public List<Article> joinFindAll(){
-		String sql="select a.id as a_id,a.name as a_name,a.content as a_content,c.id as c_id,c.name as c_name,c.content as c_content,c.article_id as c_article_id from articles as a \r\n"
-				+ "left outer join \"comments\" as c \r\n"
-				+ "on a.id=c.article_id\r\n order by a.id desc,c.id";
+		String sql="select a.id as a_id,a.name as a_name,a.content as a_content,c.id as c_id,c.name as c_name,c.content as c_content,c.article_id as c_article_id "
+				+ "from articles as a left outer join comments as c "
+				+ "on a.id = c.article_id "
+				+ "order by a.id desc,c.id";
 		
 		return template.query(sql,ARTICLE_RESULT_SET_EXTRACTOR);
 	}
@@ -121,6 +122,9 @@ public class ArticleRepository {
 	/**
 	 * 演習8
 	 * 書き込みとコメントを1つのSQLで同時に削除する.
+	 * 
+	 * comments テーブルの 'article_id' にadd 'on delete cascade'を追加.
+	 * 親テーブルの要素が削除されるとそれを参照している子テーブルの要素が自動的に削除される.
 	 * 
 	 * @param articleId 削除する書き込みのID
 	 */
