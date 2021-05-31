@@ -45,26 +45,7 @@ public class ArticleController {
 	private CommentRepository commentRepository;
 	
 	
-	/**
-	 * 掲示板画面を出力する.
-	 * 
-	 * @param model 書き込み情報とコメント情報を格納するリクエストスコープ
-	 * @return　掲示板を出力
-	 */
-	@RequestMapping("/index")
-	public String index(Model model) {
-		List<Article> articleList = articleRepository.findAll();
-		
-		List<Comment> commentList= new ArrayList<>();
-		for(Article article:articleList) {
-			commentList= commentRepository.findByArticleId(article.getId());
-			article.setCommentList(commentList);
 
-		}
-		model.addAttribute("articleList",articleList);
-		
-		return "bbs-input";
-	}
 	
 	
 	/**
