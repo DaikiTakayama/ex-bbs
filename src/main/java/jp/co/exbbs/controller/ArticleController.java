@@ -54,7 +54,7 @@ public class ArticleController {
 	 * @param model 書き込み情報を格納するリクエストスコープ
 	 * @return 画面出力
 	 */
-	@RequestMapping("/joinIndex")
+	@RequestMapping("/index")
 	public String joinIndex(Model model) {
 		List<Article> articleList = articleRepository.joinFindAll();
 		model.addAttribute("articleList",articleList);
