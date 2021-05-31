@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -23,6 +24,12 @@ import jp.co.exbbs.domain.Article;
 public class ArticleRepository {
 	private static final RowMapper<Article> ARTICLE_ROW_MAPPET = new BeanPropertyRowMapper<Article>(Article.class);
 	
+	
+	private static final ResultSetExtractor<Article> ARTICLE_RESULT_SET_EXTRACTOR = (rs) -> {
+		Article article = new Article();
+		
+		return article;
+	};
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 	
@@ -37,6 +44,16 @@ public class ArticleRepository {
 		
 		return template.query(sql, ARTICLE_ROW_MAPPET);
 	} 
+	
+	
+	public List<Article> joinFindAll(){
+		String sql="select a.id,a.name,a.content,c.name,c.content,c.article_id from articles as a \r\n"
+				+ "inner join \"comments\" as c \r\n"
+				+ "on a.id=c.article_id order by id a.id desc,c.id";
+		
+		return template.query(sql, ARTICLE_ROW_MAPPET);
+	}
+	
 	
 	
 	/**
