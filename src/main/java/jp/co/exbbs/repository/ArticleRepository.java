@@ -117,5 +117,16 @@ public class ArticleRepository {
 		template.update(sql, param);
 	}
 	
+	
+	/**
+	 * 
+	 */
+	public void deleteArticleAndCommentByID(Integer id) {
+		String sql ="delete from comments"
+				+ " where article_id in(select id from articles where id=6)";
+		
+		
+	}
+	
 
 }
