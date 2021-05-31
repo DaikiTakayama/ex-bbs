@@ -31,7 +31,7 @@ public class ArticleRepository {
 	private static final ResultSetExtractor<List<Article>> ARTICLE_RESULT_SET_EXTRACTOR = (rs) -> {
 
 		List<Article> articeleList = new ArrayList<>();
-		List<Comment> commentList = new ArrayList();
+		List<Comment> commentList = null;
 
 		Integer nowArticleId=0;
 		while(rs.next()) {
@@ -64,7 +64,6 @@ public class ArticleRepository {
 			
 			nowArticleId = newArticleId;
 		}
-		
 		
 		return articeleList;
 	};

@@ -31,7 +31,7 @@
 			</form>
 		
 		<div class ="posted_comment" th:each="comment:${article.commentList}">
-			
+			<hr>
 			<p>コメント者名：<span th:text="${comment.name}" ></span></p>
 			<p>コメント内容：</p>
 				<div><strong th:text="${comment.content}"></strong></div>

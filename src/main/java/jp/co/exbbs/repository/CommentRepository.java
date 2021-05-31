@@ -63,7 +63,7 @@ public class CommentRepository {
 	 * @param ArticleId 削除した書き込みID
 	 */
 	public void deleteByArticleId(Integer ArticleId) {
-		String sql="delete from \"comments\"  where article_id=:articleId";
+		String sql="delete from comments  where article_id=:articleId";
 		SqlParameterSource param=new MapSqlParameterSource().addValue("articleId", ArticleId);
 		template.update(sql,param);
 	}

@@ -1,6 +1,5 @@
 package jp.co.exbbs.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 
 import jp.co.exbbs.domain.Article;
 import jp.co.exbbs.domain.Comment;
