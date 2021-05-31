@@ -67,6 +67,10 @@ public class ArticleController {
 	 * 書き込みフォームに書き込みがあった場合、登録処理を実施する.
 	 * 
 	 * @param articleForm 書き込みフォームのリクエストパラメータを格納したオブジェクト
+	 * @param result エラーメッセージを格納するオブジェクト
+	 * @param redirectAttributes flashスコープを使用するため準備
+	 * @param model リクエストスコープ(joinIndex()を呼び出す際に必要)
+	 * 
 	 * @return 登録処理実施後、再度検索画面を表示
 	 */
 	@RequestMapping("/insertArticle")
@@ -88,6 +92,10 @@ public class ArticleController {
 	 * コメントを追加登録する処理を実行する.
 	 * 
 	 * @param commentForm コメントのリクエストパラメータを格納するオブジェクト
+	 * @param result エラーメッセージを格納するオブジェクト
+	 * @param redirectAttributes flashスコープを使用するため準備
+	 * @param model リクエストスコープ(joinIndex()を呼び出す際に必要)
+	 * 
 	 * @return 掲示板画面を表示
 	 */
 	@RequestMapping("/insertComment")
@@ -119,7 +127,7 @@ public class ArticleController {
 		
 		
 		//演習8 1回のSQLで記事とコメントを一括で削除
-		articleRepository.deleteArticleAndCommentByID(articleForm.getId());
+		articleRepository.deleteArticleAndCommentsByID(articleForm.getId());
 
 		return "redirect:/bbs/index";
 	}

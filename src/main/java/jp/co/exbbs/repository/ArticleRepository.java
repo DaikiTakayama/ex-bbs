@@ -128,7 +128,7 @@ public class ArticleRepository {
 	 * 
 	 * @param articleId 削除する書き込みのID
 	 */
-	public void deleteArticleAndCommentByID(Integer articleId) {
+	public void deleteArticleAndCommentsByID(Integer articleId) {
 		String sql ="delete from articles where id=:articleId";
 		
 		SqlParameterSource param = new MapSqlParameterSource().addValue("articleId", articleId);

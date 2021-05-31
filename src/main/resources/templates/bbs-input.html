@@ -7,7 +7,9 @@
 <body>
 	<div class="articleForm">
 		<form action="" th:action="@{/bbs/insertArticle}" method="post" th:object="${articleForm}">
+		
 			<div th:errors ="*{name}" style="color:red"></div>
+			
 			<label for="art_name">投稿者名：</label><input type="text" id="art_name" th:field="*{name}" name="art_name">
 
 
