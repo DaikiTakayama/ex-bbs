@@ -48,13 +48,12 @@ public class ArticleController {
 	/**
 	 * 掲示板画面を出力する.
 	 * 
-	 * @param model 書き込み情報とコメント情報を格納するリクエストパラメータ
+	 * @param model 書き込み情報とコメント情報を格納するリクエストスコープ
 	 * @return　掲示板を出力
 	 */
 	@RequestMapping("/index")
 	public String index(Model model) {
 		List<Article> articleList = articleRepository.findAll();
-
 		
 		List<Comment> commentList= new ArrayList<>();
 		for(Article article:articleList) {
@@ -65,6 +64,20 @@ public class ArticleController {
 		model.addAttribute("articleList",articleList);
 		
 		return "bbs-input";
+	}
+	
+	
+	/**
+	 * 演習6 結合を活用した書き込み内容とコメントの出力.
+	 * 
+	 * @param model 書き込み情報を格納するリクエストスコープ
+	 * @return 画面出力
+	 */
+	@RequestMapping("/joinIndex")
+	public String joinIndex(Model model) {
+		List<Article> articleList = articleRepository.joinFindAll();
+		model.addAttribute("articleList",articleList);
+		return "bbs-join-input";
 	}
 	
 	
@@ -114,6 +127,7 @@ public class ArticleController {
 
 		return "redirect:/bbs/index";
 	}
+	
 	
 	
 }
