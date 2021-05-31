@@ -20,7 +20,7 @@
 
 	<div class="posted_article" th:each="article : ${articleList}">
 	
-		<hr>
+		<hr style="border-top: 3px double #bbb;">
 			<p>投稿者名：<span th:text="${article.name}"></span></p>
 			<p>投稿内容：<strong th:text="${article.content}"></strong></p>
 			
@@ -31,7 +31,7 @@
 			</form>
 		
 		<div class ="posted_comment" th:each="comment:${article.commentList}">
-			<hr>
+			<hr style="border-top: 1px dashed #bbb;">
 			<p>コメント者名：<span th:text="${comment.name}" ></span></p>
 			<p>コメント内容：</p>
 				<div><strong th:text="${comment.content}"></strong></div>
@@ -39,6 +39,7 @@
 		
 		<div class="input_comment">
 			<form th:object="${commentForm}" method="post" th:action="@{/bbs/insertComment}">
+						<hr style="border-top: 1px dashed #bbb;">
 				<input type="hidden" name="articleId" th:value="${article.id}">
 				<p><label for="com_name">名前：</label></p>
 				<p><input type="text" id="com_name" name="com_name" th:field="*{name}"></p>

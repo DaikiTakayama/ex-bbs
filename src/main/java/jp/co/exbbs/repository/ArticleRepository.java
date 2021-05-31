@@ -87,7 +87,7 @@ public class ArticleRepository {
 	
 	public List<Article> joinFindAll(){
 		String sql="select a.id as a_id,a.name as a_name,a.content as a_content,c.id as c_id,c.name as c_name,c.content as c_content,c.article_id as c_article_id from articles as a \r\n"
-				+ "inner join \"comments\" as c \r\n"
+				+ "left outer join \"comments\" as c \r\n"
 				+ "on a.id=c.article_id\r\n order by a.id desc,c.id";
 		
 		return template.query(sql,ARTICLE_RESULT_SET_EXTRACTOR);
@@ -125,8 +125,7 @@ public class ArticleRepository {
 	 * @param articleId 削除する書き込みのID
 	 */
 	public void deleteArticleAndCommentByID(Integer articleId) {
-		String sql ="delete from comments"
-				+ " where article_id in(select id from articles where id=:articleId)";
+		String sql ="delete from articles where id=:articleId";
 		
 		SqlParameterSource param = new MapSqlParameterSource().addValue("articleId", articleId);
 		template.update(sql, param);
