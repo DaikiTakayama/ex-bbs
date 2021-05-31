@@ -1,15 +1,16 @@
 package jp.co.exbbs.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.co.exbbs.domain.Article;
 import jp.co.exbbs.domain.Comment;
@@ -54,7 +55,7 @@ public class ArticleController {
 	 * @param model 書き込み情報を格納するリクエストスコープ
 	 * @return 画面出力
 	 */
-	@RequestMapping("/joinIndex")
+	@RequestMapping("/index")
 	public String joinIndex(Model model) {
 		List<Article> articleList = articleRepository.joinFindAll();
 		model.addAttribute("articleList",articleList);
@@ -69,7 +70,13 @@ public class ArticleController {
 	 * @return 登録処理実施後、再度検索画面を表示
 	 */
 	@RequestMapping("/insertArticle")
-	public String insertArticle(ArticleForm articleForm) {
+	public String insertArticle(@Validated ArticleForm articleForm,BindingResult result,
+			RedirectAttributes redirectAttributes
+			,Model model) {
+		if(result.hasErrors()) {
+			return joinIndex(model);
+		}
+		
 		Article article =new Article();
 		BeanUtils.copyProperties(articleForm, article);
 		articleRepository.insert(article);
@@ -84,7 +91,12 @@ public class ArticleController {
 	 * @return 掲示板画面を表示
 	 */
 	@RequestMapping("/insertComment")
-	public String insertComment(CommentForm commentForm) {
+	public String insertComment(@Validated CommentForm commentForm,BindingResult result,
+			RedirectAttributes redirectAttributes,Model model) {
+		
+		if(result.hasErrors()) {
+			return joinIndex(model);
+		}
 		Comment comment =new Comment();
 		BeanUtils.copyProperties(commentForm,comment);
 //		System.out.println(comment.getArticleId());
@@ -95,16 +107,19 @@ public class ArticleController {
 	
 	/**
 	 *書き込みとコメントを削除するメソッド.
-	 *※comments テーブルはarticles テーブルの外部キーを持っているので、先に削除を実行
 	 * 
 	 * @param articleForm リクエストパラメータを格納した書き込みオブジェクト
-	 * @param commentForm　リクエストパラメータを格納したコメントオブジェクト
 	 * @return 掲示板画面へ遷移
 	 */
 	@RequestMapping("/deleteArticle")
 	public String deleteArticle(ArticleForm articleForm) {
-		commentRepository.deleteByArticleId(articleForm.getId());
-		articleRepository.deleteById(articleForm.getId());
+		//演習5 
+//		commentRepository.deleteByArticleId(articleForm.getId());
+//		articleRepository.deleteById(articleForm.getId());
+		
+		
+		//演習8 1回のSQLで記事とコメントを一括で削除
+		articleRepository.deleteArticleAndCommentByID(articleForm.getId());
 
 		return "redirect:/bbs/index";
 	}
