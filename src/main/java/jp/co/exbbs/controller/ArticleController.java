@@ -89,13 +89,29 @@ public class ArticleController {
 	 * @param commentForm コメントのリクエストパラメータを格納するオブジェクト
 	 * @return 掲示板画面を表示
 	 */
-	@RequestMapping("insertComment")
+	@RequestMapping("/insertComment")
 	public String insertComment(CommentForm commentForm) {
 		Comment comment =new Comment();
 		BeanUtils.copyProperties(commentForm,comment);
 //		System.out.println(comment.getArticleId());
 		
 		commentRepository.insert(comment);
+		return "redirect:/bbs/index";
+	}
+	
+	/**
+	 *書き込みとコメントを削除するメソッド.
+	 *※comments テーブルはarticles テーブルの外部キーを持っているので、先に削除を実行
+	 * 
+	 * @param articleForm リクエストパラメータを格納した書き込みオブジェクト
+	 * @param commentForm　リクエストパラメータを格納したコメントオブジェクト
+	 * @return 掲示板画面へ遷移
+	 */
+	@RequestMapping("/deleteArticle")
+	public String deleteArticle(ArticleForm articleForm) {
+		commentRepository.deleteByArticleId(articleForm.getId());
+		articleRepository.deleteById(articleForm.getId());
+
 		return "redirect:/bbs/index";
 	}
 	

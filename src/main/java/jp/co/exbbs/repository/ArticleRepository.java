@@ -50,7 +50,11 @@ public class ArticleRepository {
 		template.update(sql,param);
 	}
 	
-	
+	/**
+	 * 該当する書き込みをすべて消去する.
+	 * 
+	 * @param id 消去する書き込みのID
+	 */
 	public void deleteById(Integer id) {
 		String sql ="delete from articles where id =:id";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);

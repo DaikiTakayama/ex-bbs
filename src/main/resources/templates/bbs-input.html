@@ -23,7 +23,12 @@
 		<hr>
 			<p>投稿者名：<span th:text="${article.name}"></span></p>
 			<p>投稿内容：<strong th:text="${article.content}"></strong></p>
-			<p><button>記事削除</button></p> <!-- 後で削除するパスを追加 -->
+			
+			<form th:action="@{/bbs/deleteArticle}" method="post" th:object="${articleForm}">
+				<input type="hidden" th:value="${article.id}" name="id">
+				<p><button type="submit">記事削除</button></p> 
+				
+			</form>
 		
 		<div class ="posted_comment" th:each="comment:${article.commentList}">
 			

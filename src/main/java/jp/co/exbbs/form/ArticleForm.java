@@ -8,11 +8,18 @@ package jp.co.exbbs.form;
  *
  */
 public class ArticleForm {
+	/** 書き込みID*/
+	private Integer id;
 	/** 投稿者名*/
 	private String name;
 	/** コンテント*/
 	private String content;
-	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}
@@ -25,11 +32,12 @@ public class ArticleForm {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
 	@Override
 	public String toString() {
-		return "ArticleForm [name=" + name + ", content=" + content + "]";
+		return "ArticleForm [id=" + id + ", name=" + name + ", content=" + content + "]";
 	}
+	
+	
 	
 	
 }

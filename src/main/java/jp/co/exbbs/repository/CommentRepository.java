@@ -10,9 +10,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import jp.co.exbbs.domain.Article;
 import jp.co.exbbs.domain.Comment;
-import jp.co.exbbs.form.CommentForm;
 
 
 /**
@@ -52,7 +50,21 @@ public class CommentRepository {
 	 */
 	public void insert(Comment comment) {
 		String sql="insert into comments(name,content,article_id) values(:name,:content,:articleId)";
+		//Bean... に変更
 		SqlParameterSource param =new MapSqlParameterSource().addValue("name",comment.getName()).addValue("content",comment.getContent()).addValue("articleId", comment.getArticleId());
+		template.update(sql,param);
+	}
+	
+	
+	/**
+	 * 書き込みが削除された場合、該当するコメントをすべて消去する.
+	 * 
+	 * 
+	 * @param ArticleId 削除した書き込みID
+	 */
+	public void deleteByArticleId(Integer ArticleId) {
+		String sql="delete from \"comments\"  where article_id=:articleId";
+		SqlParameterSource param=new MapSqlParameterSource().addValue("articleId", ArticleId);
 		template.update(sql,param);
 	}
 	
