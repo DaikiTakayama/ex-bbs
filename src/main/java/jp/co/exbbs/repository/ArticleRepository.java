@@ -50,5 +50,12 @@ public class ArticleRepository {
 		template.update(sql,param);
 	}
 	
+	
+	public void deleteById(Integer id) {
+		String sql ="delete from articles where id =:id";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		template.update(sql, param);
+	}
+	
 
 }

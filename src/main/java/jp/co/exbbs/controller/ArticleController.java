@@ -54,15 +54,16 @@ public class ArticleController {
 	@RequestMapping("/index")
 	public String index(Model model) {
 		List<Article> articleList = articleRepository.findAll();
-		model.addAttribute("articleList",articleList);
+
 		
 		List<Comment> commentList= new ArrayList<>();
 		for(Article article:articleList) {
 			commentList= commentRepository.findByArticleId(article.getId());
 			article.setCommentList(commentList);
-			System.out.println(commentList);
-			model.addAttribute("commentList",commentList);
+
 		}
+		model.addAttribute("articleList",articleList);
+		
 		return "bbs-input";
 	}
 	
