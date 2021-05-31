@@ -77,7 +77,7 @@ public class ArticleController {
 	public String joinIndex(Model model) {
 		List<Article> articleList = articleRepository.joinFindAll();
 		model.addAttribute("articleList",articleList);
-		return "bbs-join-input";
+		return "bbs-input";
 	}
 	
 	
